@@ -1,0 +1,63 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="matrix" xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>
+            «Монитор занятости» -Отдел ПО | Группа компаний «Пивзавоз»
+        </title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <meta name="theme-color" content="#01579b">
+        <meta name="viewport"
+            content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0">
+        <link href="./style1.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&amp;subset=cyrillic-ext"
+            rel="stylesheet">
+        <script src="./script/angular.min.js"></script>
+        <script src="./script/jquery.js"></script>
+        <script src="./script/angular-route.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="./script/materialize.min.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="./script/materialize.min.js"></script>
+        <script src="./cryptojs.min.js"></script>
+        <script src="./script/app_18.js"></script>
+        <script src="./script/app_17.js"></script>
+        <script src="./script/app_test.js"></script>
+        <script type="text/javascript" src="./script/jquery.table2excel.js"></script>
+    </head>
+
+    <body class='grey lighten-2'>
+        <div class="navbar-fixed">
+            <nav class="grey lighten-1">
+                <a style="display:block" href="#" data-target="nav-mobile" class="sidenav-trigger top-nav">
+                    <i class="material-icons  white-text ">menu</i>
+                </a>
+                <!--   <div class="nav-wrapper">
+                <a href="#" class="brand-logo hide-on-med-and-down">Отдел программного обеспечения</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="sass.html">Sass</a></li>
+                    <li><a href="badges.html">Components</a></li>
+                    <li><a href="collapsible.html">JavaScript</a></li>
+                </ul>
+            </div> -->
+                <ul class="left hide-on-med-and-down">
+                   <!--  <li class="tab "><a href="/nowtasks">Задачи в работе</a></li> -->
+                    <li class="tab "><a href="/potasks">Закрытые задачи</a></li>
+                    <li class="tab "><a href="/tasktest">Задачи тест</a></li>
+                </ul>
+                <ul style="width:auto" class="right tabs tabs-transparent">
+                    <li class="tab"><a href="#perunit">Занятость сотрудников</a></li>
+                    <li class="tab "><a href="#costdep">Затраты по подразделениям</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div id="wrapper" class="row">
+            <div ng-view=""></div>
+        </div>
+
+
+    </body>
+
+</html>

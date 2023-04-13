@@ -1,0 +1,155 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="matrix" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>
+        «Монитор занятости» - Отдел системного администрирования | Группа компаний «Пивзавоз»
+    </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="theme-color" content="#01579b">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0">
+    <link href="./style1.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&amp;subset=cyrillic-ext"
+        rel="stylesheet">
+    <script src="./script/angular.min.js"></script>
+    <script src="./script/jquery.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="./script/materialize.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="./script/materialize.min.js"></script>
+    <script src="./script/app_19.js"></script>
+    <script type="text/javascript" src="./script/jquery.table2excel.js"></script>
+</head>
+
+<body ng-controller="matrix" class='grey lighten-2'>
+    <div class="navbar-fixed">
+        <nav class="grey lighten-1">
+            <a style="display:block" href="#" data-target="nav-mobile" class="sidenav-trigger top-nav">
+                <i class="material-icons  white-text ">menu</i>
+            </a>
+            <!--   <div class="nav-wrapper">
+                <a href="#" class="brand-logo hide-on-med-and-down">Отдел программного обеспечения</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="sass.html">Sass</a></li>
+                    <li><a href="badges.html">Components</a></li>
+                    <li><a href="collapsible.html">JavaScript</a></li>
+                </ul>
+            </div> -->
+            <ul style="width:auto" class="right tabs tabs-transparent">
+                <li><a href="index.html">Занятость сотрудников</a></li>
+                <li class="tab"><a href="#perunit">Занятость по Тегам</a></li>
+                <li class="tab "><a href="#costdep">Общие Теги</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="wrapper" class="row">
+        <div id="perunit" class="section col s12">
+            <table class="bordered highlight">
+                <thead>
+                    <tr>
+                        <th class="center">Сотрудник</th>
+                        <th class="center" ng-repeat="(tag,summ) in tags"><small>{{tag}}</small></th>
+                        <th class="center">Итого</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click="opendetails(uid)" ng-init="total=0;" ng-repeat="(uid,user) in users">
+                        <td>
+                            {{user.name}}
+                        </td>
+                        <td ng-init="$parent.total=+$parent.total+test[uid][tag]" class="center"
+                            ng-repeat="(tag,summ) in tags">
+                            <b>{{test[uid][tag]|number:1 }}</b><br>
+                            <!--  <small>{{times[uid][tag]?(times[uid][tag]/60/60|number:1):0}}</small><br> -->
+                            <small class="teal-text">{{spend[uid][tag]?(spend[uid][tag]/60/60|number:1):0}}</small>
+                        </td>
+                        <td class="center">
+
+                            {{total|number:1}} <br>
+                            <!--  <small>{{timeperuid[uid]?(timeperuid[uid]/60/60|number:1):0}}</small><br> -->
+                            <small class="teal-text">{{spendperuid[uid]?(spendperuid[uid]/60/60|number:1):0}}</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th ng-init="supertotal=0">Итого по отделам</th>
+                        <th ng-init="$parent.supertotal=$parent.supertotal+testtags[tag]" class="center"
+                            ng-repeat="(tag,summ) in tags">
+                            {{testtags[tag]|number:1}}<br>
+                            <!--  <small>{{timepertag[tag]?(timepertag[tag]/60/60|number:1):0}}</small><br> -->
+                            <small class="teal-text">{{spendpertag[tag]?(spendpertag[tag]/60/60|number:1):0}}</small>
+                        </th>
+                        <td>
+                            <h4 class="red-text right-align">
+                                {{supertotal|number:1}}<br>
+                                <!--    <small>{{supertime/60/60|number:1}}</small><br> -->
+                                <small class="teal-text">{{superspend/60/60|number:1}}</small>
+                            </h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="costdep" class="col s12 ">
+            <div class="col s12">
+                <table class="bordered highlight">
+                    <thead>
+                        <tr>
+                            <th class="center">Подразделение</th>
+                            <th class="center">Количество/Время</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(tag,summ) in tags">
+                            <td class="center">{{tag}}</td>
+                            <td ng-init="$parent.supertotal=$parent.supertotal+testtags[tag]">
+                                {{testtags[tag]|number:1}}
+                                <small
+                                    class="teal-text">{{spendpertag[tag]?(spendpertag[tag]/60/60|number:1):0}}</small>
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <ul id="nav-mobile" class="sidenav">
+        <li>
+            <div class="container">
+                <input id="datefrom" placeholder="Дата С" type="text" class="datepicker">
+                <input id="dateto" placeholder="Дата По" type="text" class="datepicker">
+                <button ng-click="getdata()" class="btn red waves-effect waves-blue">Получить данные</button>
+                <div ng-if="isloading" class="section row center">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="container">
+                <div class="input-field">
+                    <input placeholder="Затраты" ng-model="expenses" ng-change="calccost()" type="text" class="">
+                    <label>First Name</label>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+</body>
+
+</html>

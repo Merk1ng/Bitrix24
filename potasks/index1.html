@@ -1,0 +1,56 @@
+<div id="exampletable" class="modal-content">
+    <h4>{{details.name}}</h4>
+    <!--  <p>{{details}}</p> -->
+    <table id="employee_data">
+        <tbody>
+            <tr class="collapsible">
+                <tb ng-repeat="task in details.tasks">
+                    <tb class="col s8 l6 truncate">{{$index+1}}. <b> {{task.TITLE}}</b><br></tb>
+                    <tb class="col s8 l3">
+                        <tb ng-repeat="tag in task.TAGS" class="chip">{{tag}}</tb>
+                    </tb>
+                    <tb><small class="col s4 l1" ng-bind="beautydate(task.CREATED_DATE)"></small></tb>
+                    <tb><a target="_blank"
+                            href="https://pivzavoz.bitrix24.ru/company/personal/user/1832/tasks/task/view/{{task.ID}}/"
+                            class="teal-text center   right">
+                            <i style="margin:0" class="material-icons">arrow_forward</i>
+                        </a></tb>
+                    <tb ng-class="task.TIME_SPENT_IN_LOGS?'chip teal center white-text':''" class="col s4 l1 right">
+                        {{(task.TIME_SPENT_IN_LOGS/60/60)|number:1}} ч.</tb>
+                </tb>
+            </tr>
+            <tb class="collapsible-body">
+                <tr ng-if="task.LOGS" class="collection">
+                    <tb class="collection-item row" ng-repeat="log in task.LOGS">
+                        <small class="col l8">{{log.COMMENT_TEXT}}</small>
+                        <small class="col l2">{{users[log.USER_ID].name}}</small>
+                        <small class="col l1 right"><b>{{log.MINUTES/60}}</b></small>
+                    </tb>
+                </tr>
+            </tb>
+            </tb>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<table class="table table-striped table-bordered" id="employee_excel">
+    <tr>
+        <ul class="collapsible">
+            <td ng-repeat="task in details.tasks"></td>
+            <td class="col s8 l6 truncate">{{$index+1}}. <b> {{task.TITLE}}</b><br></td>
+            <td class="col s8 l3">
+            <td ng-repeat="tag in task.TAGS" class="chip">{{tag}}</td>
+            </td>
+            <td><small class="col s4 l1" ng-bind="beautydate(task.CREATED_DATE)"></small></td>
+            <td><a target="_blank"
+                    href="https://pivzavoz.bitrix24.ru/company/personal/user/1832/tasks/task/view/{{task.ID}}/"
+                    class="teal-text center   right">
+                    <i style="margin:0" class="material-icons">arrow_forward</i>
+                </a></td>
+            <td ng-class="task.TIME_SPENT_IN_LOGS?'chip teal center white-text':''" class="col s4 l1 right">
+                {{(task.TIME_SPENT_IN_LOGS/60/60)|number:1}} ч.</tb>
+            </td>
+    </tr>
+</table>

@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="section col s12">
+        <table class="bordered striped">
+            <thead>
+                <tr>
+                    <th class="center">Сотрудник</th>
+                    <th class="center" ng-repeat="(tag,summ) in tags">{{tag}}</th>
+                    <th class="center">Итого</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-init="total=0;" ng-repeat="(uid,user) in users">
+                    <td nowrap>{{user.name}}</td>
+                    <td nowrap ng-init="$parent.total=+$parent.total+test[uid][tag]" class="center" ng-repeat="(tag,summ) in tags">
+                       
+                        <b>{{test[uid][tag]|number:1 }}</b>/ <small>{{times[uid][tag]?(times[uid][tag]/60/60|number:1):0}}</small>
+                        <!-- /<small class="teal-text">{{spend[uid][tag]?(spend[uid][tag]/60/60|number:1):0}}</small> -->
+                    </td>
+                    <td nowrap class="center">
+                        {{total|number:1}}/<small>{{timeperuid[uid]?(timeperuid[uid]/60/60|number:1):0}}</small>
+                    
+                      <!--      <br><small class="teal-text">{{spendperuid[uid]?(spendperuid[uid]/60/60|number:1):0}}</small> -->
+                    </td>
+                   
+                </tr>
+                <tr>
+                    <th ng-init="supertotal=0">Итого по отделам</th>
+                    <th ng-init="$parent.supertotal=$parent.supertotal+testtags[tag]" class="center"  ng-repeat="(tag,summ) in tags">
+                        {{testtags[tag]|number:1}}<br>
+                        <small>{{timepertag[tag]?(timepertag[tag]/60/60|number:1):0}}</small><br>
+                        <small class="teal-text">{{spendpertag[tag]?(spendpertag[tag]/60/60|number:1):0}}</small>
+                    </th>
+                    <td><h4 class="red-text right-align">
+                        {{supertotal|number:1}}<br>
+                        <small>{{supertime/60/60|number:1}}</small><br>
+                        <small class="teal-text">{{superspend/60/60|number:1}}</small>
+                       
+
+                    </h4></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,205 @@
+<div id="perunit" class="section col s12">
+    <table class="bordered highlight">
+        <thead>
+            <tr>
+                <th class="center">Сотрудник</th>
+                <th class="center tagname" ng-repeat="(tag,summ) in tags"><small>{{tag}}</small></th>
+                <th class="center">Итого</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-click="opendetails(uid)" ng-init="total=0;" ng-repeat="(uid,user) in users">
+                <td width="10%">
+                    <i ng-if="uid==='2526'" class="material-icons left pink-text">filter_vintage</i>
+                    <i ng-if="uid==='3542'" class="material-icons left brown-text">local_dining</i>
+                    <i ng-if="uid==='2138'" class="material-icons left green-text">android</i>
+                    <i ng-if="uid==='3448'" class="material-icons left blue-text">insert_emoticon</i>
+                    <i ng-if="uid==='3788'" class="material-icons left grey-text">smoking_rooms</i>
+                    <i ng-if="uid==='1832'" class="material-icons left red-text">pan_tool</i>
+                    <i ng-if="uid==='2222'" class="material-icons left teal-text">star</i>
+                    <i ng-if="uid==='4766'" class="material-icons left amber-text">directions_walk</i>
+                    <i ng-if="uid==='4778'" class="material-icons left black-text">accessible</i> {{user.name}}
+                </td>
+                <td style="width:50px" class="center" ng-repeat="(tag,summ) in tags">
+                    <b>{{test[uid][tag]|number:1 }}</b><br>
+                    <!--  <small>{{times[uid][tag]?(times[uid][tag]/60/60|number:1):0}}</small><br> -->
+                    <small class="teal-text">{{spend[uid][tag]?(spend[uid][tag]/60/60|number:1):0}}</small>
+                </td>
+                <td style="width:50px" class="center">
+                    {{totals[uid].length|number:1}} <br>
+                    <!--  <small>{{timeperuid[uid]?(timeperuid[uid]/60/60|number:1):0}}</small><br> -->
+                    <small class="teal-text">{{spendperuid[uid]?(spendperuid[uid]/60/60|number:1):0}}</small>
+                </td>
+            </tr>
+            <tr>
+                <th ng-init="supertotal=0">Итого по отделам</th>
+                <th ng-init="$parent.supertotal=$parent.supertotal+testtags[tag]" class="center"
+                    ng-repeat="(tag,summ) in tags">
+                    {{testtags[tag]|number:1}}<br>
+                    <!--  <small>{{timepertag[tag]?(timepertag[tag]/60/60|number:1):0}}</small><br> -->
+                    <small class="teal-text">{{spendpertag[tag]?(spendpertag[tag]/60/60|number:1):0}}</small>
+                </th>
+                <td>
+                    <b class="red-text right-align">
+                        {{supertotal2|number:1}}<br>
+                        <!--    <small>{{supertime/60/60|number:1}}</small><br> -->
+                        <small class="teal-text">{{superspend/60/60|number:1}}</small>
+                    </b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table hidden class="browser-default" id="statistics">
+        <tr>
+            <td>Сотрудник</td>
+            <td class="center tagname" ng-repeat="tag in table.head track by $index"><small>{{tag}}</small>
+            </td>
+            <td class="center">Итого</td>
+        </tr>
+        <tr ng-init="total=0;" ng-repeat="(uid,user) in users">
+            <td>
+                {{user.name}}
+            </td>
+            <td ng-repeat="val in table[uid] track by $index">{{val}}</td>
+            <td class="center"></td>
+        </tr>
+
+    </table>
+</div>
+<div id="costdep" class="col s12 ">
+    <div class="col s12">
+        <table class="bordered highlight">
+            <thead>
+                <tr>
+                    <th class="center">Подразделение</th>
+                    <th class="center">Затраты</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(tag,summ) in tags">
+                    <td class="center">{{tag}}</td>
+                    <td class="center">{{ (expenses/allhours * spendpertag[tag]/60/60)|number:1}}</td>
+                </tr>
+                <tr>
+                    <th class="center">Итого :</th>
+                    <th class="center">{{allcommerce|number:1}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- <div class="col s6">
+        <table class="bordered highlight">
+            <thead>
+                <tr>
+                    <th class="center">Подразделение</th>
+                    <th class="center">Затраты</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="deps['service'].indexOf(tag) + 1>0" ng-repeat="(tag,summ) in tags">
+                    <td class="center">{{tag}}</td>
+                    <td class="center">
+                        {{(spendpertag[tag]/60/60)*costperhour|number:1}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="center">Итого по серввисным подразделениям:</th>
+                    <th class="center">{{all_service|number:1}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+</div>
+<div id="details" class="modal">
+    <div class="modal-content">
+        <h4>{{details.name}}</h4>
+        <!--  <p>{{details}}</p> -->
+        <ul class="collapsible">
+            <li ng-repeat="task in details.tasks">
+                <div class="collapsible-header grey lighten-4">
+                    <div style="width:100%;margin:0" class="row">
+                        <div class="col s8 l6 truncate">{{$index+1}}. <b> {{task.TITLE}}</b><br>
+                        </div>
+                        <div class="col s8 l3">
+                            <div ng-repeat="tag in task.TAGS" class="chip">{{tag}}</div>
+                        </div>
+                        <small class="col s4 l1" ng-bind="beautydate(task.CREATED_DATE)"></small>
+                        <a target="_blank"
+                            href="https://pivzavoz.bitrix24.ru/company/personal/user/1832/tasks/task/view/{{task.ID}}/"
+                            class="teal-text center   right">
+                            <i style="margin:0" class="material-icons">arrow_forward</i>
+                        </a>
+                        <div ng-class="task.TIME_SPENT_IN_LOGS?'chip teal center white-text':''"
+                            class="col s4 l1 right">{{(task.TIME_SPENT_IN_LOGS/60/60)|number:1}} ч.</div>
+                    </div>
+                </div>
+                <div class="collapsible-body">
+                    <ul ng-if="task.LOGS" class="collection">
+                        <li class="collection-item row" ng-repeat="log in task.LOGS">
+                            <small class="col l8">{{log.COMMENT_TEXT}}</small>
+                            <small class="col l2">{{users[log.USER_ID].name}}</small>
+                            <small class="col l1 right"><b>{{log.MINUTES/60}}</b></small>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+<ul id="nav-mobile" class="sidenav">
+    <li>
+        <div class="container">
+            <input id="datefrom" placeholder="Дата С" type="text" class="datepicker">
+            <input id="dateto" placeholder="Дата По" type="text" class="datepicker">
+            <button ng-click="getdata()" class="btn red waves-effect waves-blue">Получить данные</button>
+            <div ng-if="isloading" class="section row center">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="container">
+            <div class="input-field">
+                <input placeholder="Затраты" ng-model="expenses" ng-change="calccost()" type="text" class="">
+                <label>Затраты</label>
+            </div>
+            <div class="input-field">
+                <input placeholder="Тэг" ng-model="mytag" ng-change="calccost()" type="text" class="">
+            </div>
+        </div>
+    </li>
+    <li><a ng-click="toexcel()" href="">Выгрузить в Excel</a> </li>
+    <li>
+        <div ng-repeat="sp in SpecialTags" class="container">
+            <div class="row">
+                <div class="col s6">
+                    <div class="input-field">
+                        <input placeholder="Тэг" ng-model="sp.tag" type="text" class="">
+                        <label>Тэг</label>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <input placeholder="Доля" ng-model="sp.quota" step="0.1" type="number" class="">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </li>
+</ul>
